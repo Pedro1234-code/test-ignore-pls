@@ -197,9 +197,36 @@ namespace FloatingCastle_Client
 
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
             {
+                var dialog = new MessageDialog("This is my content", "Title");
+                dialog.Commands.Add(new UICommand("Yes", null));
+                dialog.Commands.Add(new UICommand("No", null));
+                dialog.DefaultCommandIndex = 0;
+                dialog.CancelCommandIndex = 1;
 
+                // Get the window handle
+                var handle = this.As<IWindowNative>().WindowHandle;
+                if (handle == IntPtr.Zero)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                // Initialize the MessageDialog with the window handle
+                dialog.As<IInitializeWithWindow>().Initialize(handle);
+
+                // Show the dialog and get the result
+                var result = await dialog.ShowAsync();
+                if (result.Label == "Yes")
+                {
+                    // do something
+                }
+                else
+                {
+                    // do something else
+                }
 
             }
+
+
 
                 if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
                 {
